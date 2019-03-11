@@ -172,8 +172,9 @@ public class StaffsDAO {
 		StaffsDAO dao = new StaffsDAO();
 		try {
 			dao.getStaff("1");
+			//dao.insertStaff("Nguyen Trong Nghia", "nghianguyen12@gmail.com", "1", "10/03/1998", "01207198133", "2");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto-generated catch block,
 			e.printStackTrace();
 		}
 	}
