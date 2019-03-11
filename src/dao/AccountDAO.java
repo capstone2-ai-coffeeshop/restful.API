@@ -9,29 +9,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ConnectionSQL.DataAccess;
-import bean.ProductCategory;
-import bean.Staffs;;
+import bean.Account;
 
-public class ProductCategoryDAO {
+public class AccountDAO {
 	DataAccess instanceSQL = DataAccess.getInstance();
 	
-	public List<ProductCategory> getListCategory() throws SQLException {
-		ArrayList<ProductCategory> list = new ArrayList<>();
+	public List<Account> getListAccount() throws SQLException {
+		ArrayList<Account> list = new ArrayList<>();
 		Connection con = instanceSQL.createConnection();
 		ResultSet result = null;
 		Statement stmt = null;
 		try {
 			stmt = con.createStatement();
-			String query = "SELECT * FROM product_category";
+			String query = "SELECT * FROM accounts";
 			result = stmt.executeQuery(query);
-			ProductCategory category = null;
+			Account account = null;
 			while (result.next()) {
-				category = new ProductCategory();
-				category.setId(result.getString("id"));
-				category.setName(result.getString("name"));
-				category.setDescription(result.getString("description"));
-				category.setCreatedAt(result.getString("created_at"));
-				list.add(category);
+				account = new Account();
+				account.setId(result.getString("id"));
+				account.setUsername(result.getString("username"));
+				account.setPassword(result.getString("password"));
+				account.setRole(result.getString("role"));
+				list.add(account);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -46,22 +45,22 @@ public class ProductCategoryDAO {
 		return list;
 	}
 
-	public ProductCategory getCategory(String id) throws SQLException {
+	public Account getAccount(String id) throws SQLException {
 		Connection con = instanceSQL.createConnection();
 		ResultSet result = null;
 		Statement stmt = null;
-		ProductCategory category = null;
+		Account account = null;
 		try {
 			stmt = con.createStatement();
-			String query = "SELECT * FROM product_category WHERE id = " + id;
+			String query = "SELECT * FROM accounts WHERE id = " + id;
 			result = stmt.executeQuery(query);
 
 			while (result.next()) {
-				category = new ProductCategory();
-				category.setId(result.getString("id"));
-				category.setName(result.getString("name"));
-				category.setDescription(result.getString("description"));
-				category.setCreatedAt(result.getString("created_at"));
+				account = new Account();
+				account.setId(result.getString("id"));
+				account.setUsername(result.getString("username"));
+				account.setPassword(result.getString("password"));
+				account.setRole(result.getString("role"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -73,21 +72,21 @@ public class ProductCategoryDAO {
 				stmt.close();
 			}
 		}
-		return category;
+		return account;
 	}
 
-	public boolean insertCategory(String name, String description, String created_at) throws SQLException {
+	public boolean insertAccount(String username, String password, String role) throws SQLException {
 		Connection con = null;
 		PreparedStatement preStm = null;
 		con = instanceSQL.createConnection();
 
-		String query = "INSERT INTO product_category(name, description, created_at) VALUES(?,?,?)";
+		String query = "INSERT INTO accounts(username, password, role) VALUES(?,?,?)";
 
 		try {
 			preStm = con.prepareStatement(query);
-			preStm.setString(1, name);
-			preStm.setString(2, description);
-			preStm.setString(3, created_at);
+			preStm.setString(1, username);
+			preStm.setString(2, password);
+			preStm.setString(3, role);
 
 			if (preStm.executeUpdate() == 1) {
 				return true;
@@ -104,17 +103,17 @@ public class ProductCategoryDAO {
 		}
 	}
 
-	public boolean updateCategory(String id, String name, String description, String created_at) throws SQLException {
+	public boolean updateAccount(String id, String username, String password, String role) throws SQLException {
 		Connection con = null;
 		PreparedStatement preStm = null;
 		con = instanceSQL.createConnection();
 
-		String query = "UPDATE product_category SET name = ?, description = ?, created_at = ? WHERE id = ?";
+		String query = "UPDATE accounts SET username = ?, password = ?, role = ? WHERE id = ?";
 		try {
 			preStm = con.prepareStatement(query);
-			preStm.setString(1, name);
-			preStm.setString(2, description);
-			preStm.setString(3, created_at);
+			preStm.setString(1, username);
+			preStm.setString(2, password);
+			preStm.setString(3, role);
 			preStm.setString(4, id);
 			if (preStm.executeUpdate() == 1) {
 				return true;
@@ -131,12 +130,12 @@ public class ProductCategoryDAO {
 		}
 	}
 
-	public boolean deleteCategory(String id) throws SQLException {
+	public boolean deleteAccount(String id) throws SQLException {
 		Connection con = null;
 		PreparedStatement preStm = null;
 		con = instanceSQL.createConnection();
 
-		String query = "DELETE FROM product_category WHERE id = ?";
+		String query = "DELETE FROM accounts WHERE id = ?";
 
 		try {
 			preStm = con.prepareStatement(query);
@@ -157,14 +156,8 @@ public class ProductCategoryDAO {
 	}
 	
 	public static void main(String[] args) {
-		ProductCategoryDAO dao = new ProductCategoryDAO();
-		try {
-			//dao.insertCategory("Bia", "Bia Heneiken lạnh cực ngon", "11/01/2019");
-			dao.deleteCategory("1");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// TODO Auto-generated method stub
+
 	}
 
 }
