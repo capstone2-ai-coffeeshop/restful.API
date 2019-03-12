@@ -1,8 +1,5 @@
 /ConnectionSQL/
-/bean/
-/bo/
-/common/
-/dao/
-/rest/
 /test/
-/library/
+/dao/
+/bo/
+/rest/
