@@ -22,7 +22,7 @@ import bo.AccountBO;
 @Path("/accounts")
 
 public class AccountAPI {
-	
+
 	private static final String SUCCESS_RESULT = "{\"status\":\"success\"}";
 	private static final String FAILURE_RESULT = "{\"status\":\"fail\"}";
 
@@ -48,8 +48,7 @@ public class AccountAPI {
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public String insertAccount(@FormParam("username") String username, @FormParam("password") String password,
-			@FormParam("role") String role,
-			@Context HttpServletResponse servletResponse) {
+			@FormParam("role") String role, @Context HttpServletResponse servletResponse) {
 
 		if (accountBO.insertAccount(username, password, role)) {
 			// return "{\"status\":\"true\"}";
@@ -64,11 +63,15 @@ public class AccountAPI {
 	@Path("/action-accounts")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public String updateAccount(@FormParam("id") String id, @FormParam("username") String username,
-			@FormParam("password") String password, @FormParam("role") String role,
+	public String updateAccount(@FormParam("id") String id, @FormParam("password") String password,
+			@FormParam("newpassword") String newpassword, @FormParam("cfpassword") String cfpassword,
 			@Context HttpServletResponse servletResponse) {
-		if (accountBO.updateAccount(id, username, password, role)) {
-			return SUCCESS_RESULT;
+		if (newpassword.equals(cfpassword)) {
+			if (accountBO.updateAccount(id, password, cfpassword)) {
+				return SUCCESS_RESULT;
+			} else {
+				return FAILURE_RESULT;
+			}
 		} else {
 			return FAILURE_RESULT;
 		}
