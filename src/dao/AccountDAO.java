@@ -13,10 +13,9 @@ import bean.Account;
 
 public class AccountDAO {
 	DataAccess instanceSQL = DataAccess.getInstance();
-	
+
 	public List<Account> getListAccount() throws SQLException {
 		ArrayList<Account> list = new ArrayList<>();
-		ArrayList<Account> list1 = new ArrayList<>();
 		Connection con = instanceSQL.createConnection();
 		ResultSet result = null;
 		Statement stmt = null;
@@ -104,18 +103,17 @@ public class AccountDAO {
 		}
 	}
 
-	public boolean updateAccount(String id, String username, String password, String role) throws SQLException {
+	public boolean updateAccount(String id, String password, String newPassword) throws SQLException {
 		Connection con = null;
 		PreparedStatement preStm = null;
 		con = instanceSQL.createConnection();
 
-		String query = "UPDATE accounts SET username = ?, password = ?, role = ? WHERE id = ?";
+		String query = "UPDATE accounts SET password = ? WHERE id = ? AND password = ?";
 		try {
 			preStm = con.prepareStatement(query);
-			preStm.setString(1, username);
-			preStm.setString(2, password);
-			preStm.setString(3, role);
-			preStm.setString(4, id);
+			preStm.setString(1, newPassword);
+			preStm.setString(2, id);
+			preStm.setString(3, password);
 			if (preStm.executeUpdate() == 1) {
 				return true;
 			} else {
@@ -131,7 +129,7 @@ public class AccountDAO {
 		}
 	}
 
-	public boolean deleteAccount(String id) throws SQLException {
+	public boolean deleteAccount(String id) throws SQLException { // Delete Account
 		Connection con = null;
 		PreparedStatement preStm = null;
 		con = instanceSQL.createConnection();
@@ -155,10 +153,14 @@ public class AccountDAO {
 			}
 		}
 	}
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
+	public static void main(String[] args) {
+		AccountDAO accountDAO = new AccountDAO();
+		try {
+			System.out.println(accountDAO.updateAccount("1", "hellos", "hoilamchi123"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
