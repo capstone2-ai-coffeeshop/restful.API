@@ -16,6 +16,7 @@ public class AccountDAO {
 	
 	public List<Account> getListAccount() throws SQLException {
 		ArrayList<Account> list = new ArrayList<>();
+		ArrayList<Account> list1 = new ArrayList<>();
 		Connection con = instanceSQL.createConnection();
 		ResultSet result = null;
 		Statement stmt = null;
