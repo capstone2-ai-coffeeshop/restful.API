@@ -10,10 +10,11 @@ import java.util.List;
 
 import ConnectionSQL.DataAccess;
 import bean.Account;
+import library.md5;
 
 public class AccountDAO {
 	DataAccess instanceSQL = DataAccess.getInstance();
-	
+
 	public List<Account> getListAccount() throws SQLException {
 		ArrayList<Account> list = new ArrayList<>();
 		Connection con = instanceSQL.createConnection();
@@ -154,10 +155,71 @@ public class AccountDAO {
 			}
 		}
 	}
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
+	public int checkLogin(String username, String password) throws SQLException {
+		Connection con = instanceSQL.createConnection();
+		ResultSet result = null;
+		Statement stmt = null;
+		int count = 0;
+
+		try {
+			stmt = con.createStatement();
+			String query = "SELECT COUNT(*) AS total FROM accounts WHERE username = '" + username + "' AND password = '"
+					+ md5.MD5(password) + "'";
+			result = stmt.executeQuery(query);
+			while (result.next()) {
+				count = result.getInt("total");
+			}
+			System.out.println(count);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (result != null) {
+				result.close();
+			}
+			if (stmt != null) {
+				stmt.close();
+			}
+		}
+		return count;
+	}
+
+	public Account getAccountByUsername(String username) throws SQLException {
+		Connection con = instanceSQL.createConnection();
+		ResultSet result = null;
+		Statement stmt = null;
+		Account account = null;
+		try {
+			stmt = con.createStatement();
+			String query = "SELECT * FROM accounts WHERE username = " + username;
+			result = stmt.executeQuery(query);
+
+			while (result.next()) {
+				account = new Account();
+				account.setId(result.getString("id"));
+				account.setUsername(result.getString("username"));
+				account.setPassword(result.getString("password"));
+				account.setRole(result.getString("role"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (result != null) {
+				result.close();
+			}
+			if (stmt != null) {
+				stmt.close();
+			}
+		}
+		return account;
+	}
+	
+	
+
+	public static void main(String[] args) throws SQLException {
+		// TODO Auto-generated method stub
+		AccountDAO dao = new AccountDAO();
+		System.out.println(dao.checkLogin("duy", "123"));
 	}
 
 }
