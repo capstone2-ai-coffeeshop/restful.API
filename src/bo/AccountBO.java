@@ -6,10 +6,11 @@ import java.util.List;
 
 import bean.Account;
 import dao.AccountDAO;
+
 public class AccountBO {
-	
+
 	AccountDAO dao = new AccountDAO();
-	
+
 	public List<Account> getListAccount() {
 		List<Account> list = new ArrayList<>();
 		try {
@@ -43,9 +44,9 @@ public class AccountBO {
 		}
 	}
 
-	public boolean updateAccount(String id, String username, String password, String role) {
+	public boolean updateAccount(String id, String password, String newPassword) {
 		try {
-			if (dao.updateAccount(id, username, password, role)) {
+			if (dao.updateAccount(id, password, newPassword)) {
 				return true;
 			} else {
 				return false;
@@ -68,7 +69,7 @@ public class AccountBO {
 			return false;
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
