@@ -154,7 +154,6 @@ public class AccountDAO {
 			}
 		}
 	}
-<<<<<<< HEAD
 
 	public int checkLogin(String username, String password) throws SQLException {
 		Connection con = instanceSQL.createConnection();
