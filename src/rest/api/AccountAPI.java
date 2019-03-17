@@ -31,7 +31,7 @@ public class AccountAPI {
 	@GET
 	@Path("/action-accounts")
 	@Produces("application/json")
-	public List<Account> getListStaffs() {
+	public List<Account> getListAccounts() {
 		List<Account> list = accountBO.getListAccount();
 		return list;
 	}
@@ -42,6 +42,13 @@ public class AccountAPI {
 	public Account getAccount(@PathParam("id") String id) {
 		return accountBO.getAccount(id);
 	}
+	
+//	@GET
+//	@Path("/action-accounts/{username}")
+//	@Produces("application/json")
+//	public Account getAccountByUsername(@PathParam("username") String username) {
+//		return accountBO.getAccountByUsername(username);
+//	}
 
 	@POST
 	@Path("/action-accounts")
@@ -63,11 +70,11 @@ public class AccountAPI {
 	@Path("/action-accounts")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public String updateAccount(@FormParam("id") String id, @FormParam("password") String password,
+	public String updateAccount(@FormParam("username") String username, @FormParam("password") String password,
 			@FormParam("newpassword") String newpassword, @FormParam("cfpassword") String cfpassword,
 			@Context HttpServletResponse servletResponse) {
 		if (newpassword.equals(cfpassword)) {
-			if (accountBO.updateAccount(id, password, cfpassword)) {
+			if (accountBO.updateAccount(username, password, cfpassword)) {
 				return SUCCESS_RESULT;
 			} else {
 				return FAILURE_RESULT;

@@ -44,9 +44,9 @@ public class AccountBO {
 		}
 	}
 
-	public boolean updateAccount(String id, String password, String newPassword) {
+	public boolean updateAccount(String username, String password, String newPassword) {
 		try {
-			if (dao.updateAccount(id, password, newPassword)) {
+			if (dao.updateAccount(username, password, newPassword)) {
 				return true;
 			} else {
 				return false;
@@ -69,9 +69,21 @@ public class AccountBO {
 			return false;
 		}
 	}
+	public Account getAccountByUsername(String username) {
+		Account account = null;
+		try {
+			account = dao.getAccountByUsername(username);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println(account.getPassword());
+		return account;
+	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		AccountBO aB = new AccountBO();
+		aB.getAccount("1");
 
 	}
 

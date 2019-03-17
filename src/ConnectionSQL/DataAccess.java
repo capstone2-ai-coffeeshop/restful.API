@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class DataAccess {
 	private String url = "jdbc:mysql://localhost:3306/ai_coffeeshop";
 	private String userName = "root";
-	private String password = "123123";
+	private String password = "haquangnhan2091";
 	private static Connection connection = null;
 	private static PreparedStatement pst = null;
 	private static DataAccess instance;

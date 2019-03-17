@@ -75,6 +75,37 @@ public class AccountDAO {
 		}
 		return account;
 	}
+	
+	public Account getAccountByUsername(String username) throws SQLException {
+		Connection con = instanceSQL.createConnection();
+		ResultSet result = null;
+		Statement stmt = null;
+		Account account = null;
+		try {
+			stmt = con.createStatement();
+			String query = "SELECT * FROM accounts WHERE username = '" + username + "'";
+			result = stmt.executeQuery(query);
+
+			while (result.next()) {
+				account = new Account();
+				account.setId(result.getString("id"));
+				account.setUsername(result.getString("username"));
+				account.setPassword(result.getString("password"));
+				account.setRole(result.getString("role"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (result != null) {
+				result.close();
+			}
+			if (stmt != null) {
+				stmt.close();
+			}
+		}
+		return account;
+	}
+	
 
 	public boolean insertAccount(String username, String password, String role) throws SQLException {
 		Connection con = null;
@@ -104,16 +135,16 @@ public class AccountDAO {
 		}
 	}
 
-	public boolean updateAccount(String id, String password, String newPassword) throws SQLException {
+	public boolean updateAccount(String username, String password, String newPassword) throws SQLException {
 		Connection con = null;
 		PreparedStatement preStm = null;
 		con = instanceSQL.createConnection();
 
-		String query = "UPDATE accounts SET password = ? WHERE id = ? AND password = ?";
+		String query = "UPDATE accounts SET password = ? WHERE username = ? AND password = ?"; //tại đây nó hiểu :))) vô SQL làm nó đéo hiểu
 		try {
 			preStm = con.prepareStatement(query);
 			preStm.setString(1, newPassword);
-			preStm.setString(2, id);
+			preStm.setString(2, username);
 			preStm.setString(3, password);
 			if (preStm.executeUpdate() == 1) {
 				return true;
@@ -180,46 +211,16 @@ public class AccountDAO {
 				stmt.close();
 			}
 		}
+		System.out.println(count);
 		return count;
 	}
-
-	public Account getAccountByUsername(String username) throws SQLException {
-		Connection con = instanceSQL.createConnection();
-		ResultSet result = null;
-		Statement stmt = null;
-		Account account = null;
-		try {
-			stmt = con.createStatement();
-			String query = "SELECT * FROM accounts WHERE username = " + username;
-			result = stmt.executeQuery(query);
-
-			while (result.next()) {
-				account = new Account();
-				account.setId(result.getString("id"));
-				account.setUsername(result.getString("username"));
-				account.setPassword(result.getString("password"));
-				account.setRole(result.getString("role"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (result != null) {
-				result.close();
-			}
-			if (stmt != null) {
-				stmt.close();
-			}
-		}
-		return account;
-	}
-	
 	
 
 
 	public static void main(String[] args) {
 		AccountDAO accountDAO = new AccountDAO();
 		try {
-			System.out.println(accountDAO.updateAccount("1", "hellos", "hoilamchi123"));
+			System.out.println(accountDAO.getAccountByUsername("nhanha"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
