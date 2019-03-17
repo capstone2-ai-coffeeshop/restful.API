@@ -16,41 +16,41 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import bean.Account;
-import bo.AccountBO;
+import bean.Tables;
+import bo.TablesBO;
 
-@Path("/accounts")
-
-public class AccountAPI {
-
+@Path("/tables")
+public class TablesAPI {
+	
 	private static final String SUCCESS_RESULT = "{\"status\":\"success\"}";
 	private static final String FAILURE_RESULT = "{\"status\":\"fail\"}";
 
-	AccountBO accountBO = new AccountBO();
+	TablesBO tablesBO = new TablesBO();
 
 	@GET
-	@Path("/action-accounts")
+	@Path("/action-tables")
 	@Produces("application/json")
-	public List<Account> getListAccounts() {
-		List<Account> list = accountBO.getListAccount();
+	public List<Tables> getListTables() {
+		List<Tables> list = tablesBO.getListTables();
 		return list;
 	}
 
 	@GET
-	@Path("/action-accounts/{id}")
+	@Path("/action-tables/{id}")
 	@Produces("application/json")
-	public Account getAccount(@PathParam("id") String id) {
-		return accountBO.getAccount(id);
+	public Tables getTable(@PathParam("id") String id) {
+		return tablesBO.getTable(id);
 	}
 
 	@POST
-	@Path("/action-accounts")
+	@Path("/action-tables")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public String insertAccount(@FormParam("username") String username, @FormParam("password") String password,
-			@FormParam("role") String role, @Context HttpServletResponse servletResponse) {
+	public String insertTable(@FormParam("quantityofcustomer") String quantityOfCustomer, @FormParam("description") String description,
+			@FormParam("status") String status,
+			@Context HttpServletResponse servletResponse) {
 
-		if (accountBO.insertAccount(username, password, role)) {
+		if (tablesBO.insertTable(quantityOfCustomer, description, status)) {
 			// return "{\"status\":\"true\"}";
 			return SUCCESS_RESULT;
 		} else {
@@ -60,28 +60,24 @@ public class AccountAPI {
 	}
 
 	@PUT
-	@Path("/action-accounts")
+	@Path("/action-tables")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public String updateAccount(@FormParam("id") String id, @FormParam("password") String password,
-			@FormParam("newpassword") String newpassword, @FormParam("cfpassword") String cfpassword,
+	public String updateTable(@FormParam("id") String id, @FormParam("quantityofcustomer") String quantityOfCustomer,
+			@FormParam("description") String description, @FormParam("status") String status,
 			@Context HttpServletResponse servletResponse) {
-		if (newpassword.equals(cfpassword)) {
-			if (accountBO.updateAccount(id, password, cfpassword)) {
-				return SUCCESS_RESULT;
-			} else {
-				return FAILURE_RESULT;
-			}
+		if (tablesBO.updateTable(id, quantityOfCustomer, description, status)) {
+			return SUCCESS_RESULT;
 		} else {
 			return FAILURE_RESULT;
 		}
 	}
 
 	@DELETE
-	@Path("/action-accounts/{id}")
+	@Path("/action-tables/{id}")
 	@Produces("application/json")
-	public String deleteAccount(@PathParam("id") String id) {
-		if (accountBO.deleteAccount(id)) {
+	public String deleteTable(@PathParam("id") String id) {
+		if (tablesBO.deleteTable(id)) {
 			return SUCCESS_RESULT;
 		} else {
 			return FAILURE_RESULT;
@@ -89,7 +85,7 @@ public class AccountAPI {
 	}
 
 	@OPTIONS
-	@Path("/action-accounts")
+	@Path("/action-tables")
 	@Produces(MediaType.APPLICATION_XML)
 	public String getSupportedOperations() {
 		return "<operations>GET, PUT, POST, DELETE</operations>";
