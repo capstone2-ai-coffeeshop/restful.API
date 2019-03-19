@@ -57,6 +57,19 @@ public class AccountBO {
 		}
 	}
 
+	public boolean changePasswordByEmail(String email, String newPassword) {
+		try {
+			if (dao.changePasswordByEmail(email, newPassword)) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 	public boolean deleteAccount(String id) {
 		try {
 			if (dao.deleteAccount(id)) {

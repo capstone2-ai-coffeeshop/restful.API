@@ -18,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 
 import bean.Account;
 import bo.AccountBO;
+import library.md5;
 
 @Path("/accounts")
 
@@ -50,7 +51,7 @@ public class AccountAPI {
 	public String insertAccount(@FormParam("username") String username, @FormParam("password") String password,
 			@FormParam("role") String role, @Context HttpServletResponse servletResponse) {
 
-		if (accountBO.insertAccount(username, password, role)) {
+		if (accountBO.insertAccount(username, md5.MD5(password), role)) {
 			// return "{\"status\":\"true\"}";
 			return SUCCESS_RESULT;
 		} else {
@@ -66,7 +67,10 @@ public class AccountAPI {
 	public String updateAccount(@FormParam("id") String id, @FormParam("password") String password,
 			@FormParam("newpassword") String newpassword, @FormParam("cfpassword") String cfpassword,
 			@Context HttpServletResponse servletResponse) {
-		if (newpassword.equals(cfpassword)) {
+		if (newpassword.equals(cfpassword) && newpassword != null) {
+			password = md5.MD5(password);
+			newpassword = md5.MD5(newpassword);
+			cfpassword = md5.MD5(cfpassword);
 			if (accountBO.updateAccount(id, password, cfpassword)) {
 				return SUCCESS_RESULT;
 			} else {

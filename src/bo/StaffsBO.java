@@ -72,6 +72,19 @@ public class StaffsBO {
 		}
 	}
 
+	public boolean forgotPassword(String email) {
+		try {
+			if (dao.forgotPassword(email)) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 	public static void main(String[] args) {
 		StaffsBO bo = new StaffsBO();
 		int id = 17;

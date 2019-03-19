@@ -7,17 +7,24 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.HEAD;
 import javax.ws.rs.OPTIONS;
+import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import bean.Staffs;
+import bo.AccountBO;
 import bo.StaffsBO;
+import library.SendMailTLS;
+import library.md5;
+import library.randomCharacters;
 
 @Path("/staffs")
 public class StaffsAPI {
@@ -26,6 +33,7 @@ public class StaffsAPI {
 	private static final String FAILURE_RESULT = "{\"status\":\"fail\"}";
 
 	StaffsBO staffsBO = new StaffsBO();
+	AccountBO accountBO = new AccountBO();
 
 	@GET
 	@Path("/action-staffs")
@@ -40,6 +48,23 @@ public class StaffsAPI {
 	@Produces("application/json")
 	public Staffs getStaff(@PathParam("id") String id) {
 		return staffsBO.getStaff(id);
+	}
+
+	@PATCH
+	@Path("/action-staffs/{email}")
+	@Produces("application/json")
+	public String forgotPassword(@PathParam("email") String email) {
+		if (staffsBO.forgotPassword(email)) {
+			String newPass = randomCharacters.randomString(10);
+			if (accountBO.changePasswordByEmail(email, md5.MD5(newPass))) {
+				SendMailTLS.sendMail(email, newPass);
+				return SUCCESS_RESULT;
+			} else {
+				return FAILURE_RESULT;
+			}
+		} else {
+			return FAILURE_RESULT;
+		}
 	}
 
 	@POST
