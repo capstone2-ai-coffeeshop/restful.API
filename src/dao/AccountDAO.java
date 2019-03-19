@@ -10,7 +10,9 @@ import java.util.List;
 
 import ConnectionSQL.DataAccess;
 import bean.Account;
+import library.SendMailTLS;
 import library.md5;
+import library.randomCharacters;
 
 public class AccountDAO {
 	DataAccess instanceSQL = DataAccess.getInstance();
@@ -130,6 +132,31 @@ public class AccountDAO {
 		}
 	}
 
+	public boolean changePasswordByEmail(String email, String newPassword) throws SQLException {
+		Connection con = null;
+		PreparedStatement preStm = null;
+		con = instanceSQL.createConnection();
+
+		String query = "UPDATE accounts SET password = ? WHERE id = (SELECT account_id FROM staffs WHERE email = ?);";
+		try {
+			preStm = con.prepareStatement(query);
+			preStm.setString(1, newPassword);
+			preStm.setString(2, email);
+			if (preStm.executeUpdate() == 1) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			if (preStm != null) {
+				preStm.close();
+			}
+		}
+	}
+
 	public boolean deleteAccount(String id) throws SQLException { // Delete Account
 		Connection con = null;
 		PreparedStatement preStm = null;
@@ -212,14 +239,12 @@ public class AccountDAO {
 		}
 		return account;
 	}
-	
-	
-
 
 	public static void main(String[] args) {
 		AccountDAO accountDAO = new AccountDAO();
 		try {
-			System.out.println(accountDAO.updateAccount("1", "hellos", "hoilamchi123"));
+			System.out.println(accountDAO.changePasswordByEmail("trongnghianguyen1003@gmail.com",
+					randomCharacters.randomString(10)));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
