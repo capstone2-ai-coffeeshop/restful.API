@@ -182,7 +182,7 @@ public class AccountDAO {
 		}
 	}
 
-	public int checkLogin(String username, String password) throws SQLException {
+	public int countAccountLogin(String username, String password) throws SQLException {
 		Connection con = instanceSQL.createConnection();
 		ResultSet result = null;
 		Statement stmt = null;
@@ -208,6 +208,19 @@ public class AccountDAO {
 			}
 		}
 		return count;
+	}
+	
+	public boolean checkLogin(String username, String password) {
+		try {
+			if(countAccountLogin(username, password) >= 1)
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	public Account getAccountByUsername(String username) throws SQLException {
