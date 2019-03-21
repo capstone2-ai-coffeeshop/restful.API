@@ -82,6 +82,14 @@ public class AccountBO {
 			return false;
 		}
 	}
+	
+	public boolean checkLogin(String username, String password) {
+		if (dao.checkLogin(username, password)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

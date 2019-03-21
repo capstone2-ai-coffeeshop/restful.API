@@ -98,4 +98,21 @@ public class AccountAPI {
 	public String getSupportedOperations() {
 		return "<operations>GET, PUT, POST, DELETE</operations>";
 	}
+	
+	@POST
+	@Path("/login")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public String checkLogin(@FormParam("username") String username, @FormParam("password") String password,
+			@Context HttpServletResponse servletResponse) {
+
+		if (accountBO.checkLogin(username, password)) {
+			// return "{\"status\":\"true\"}";
+			return SUCCESS_RESULT;
+		} else {
+			// return "{\"status\":\"false\"}";
+			return FAILURE_RESULT;
+		}
+	}
+	
 }
