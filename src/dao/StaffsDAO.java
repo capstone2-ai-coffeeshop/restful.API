@@ -168,11 +168,37 @@ public class StaffsDAO {
 		}
 	}
 
+	public boolean forgotPassword(String email) throws SQLException {
+		Connection con = instanceSQL.createConnection();
+		ResultSet result = null;
+		Statement stmt = null;
+		try {
+			stmt = con.createStatement();
+			String query = "SELECT * FROM staffs WHERE email = '" + email + "'";
+			result = stmt.executeQuery(query);
+			while (result.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			if (result != null) {
+				result.close();
+			}
+			if (stmt != null) {
+				stmt.close();
+			}
+		}
+		return false;
+	}
+
 	public static void main(String[] args) {
 		StaffsDAO dao = new StaffsDAO();
 		try {
-			dao.getStaff("1");
-			//dao.insertStaff("Nguyen Trong Nghia", "nghianguyen12@gmail.com", "1", "10/03/1998", "01207198133", "2");
+			System.out.println(dao.forgotPassword("trongnghianguyen1003@gmail.com"));
+			// dao.insertStaff("Nguyen Trong Nghia", "nghianguyen12@gmail.com", "1",
+			// "10/03/1998", "01207198133", "2");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block,
 			e.printStackTrace();

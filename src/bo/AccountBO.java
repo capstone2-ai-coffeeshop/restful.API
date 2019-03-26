@@ -57,6 +57,19 @@ public class AccountBO {
 		}
 	}
 
+	public boolean changePasswordByEmail(String email, String newPassword) {
+		try {
+			if (dao.changePasswordByEmail(email, newPassword)) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 	public boolean deleteAccount(String id) {
 		try {
 			if (dao.deleteAccount(id)) {
@@ -69,6 +82,7 @@ public class AccountBO {
 			return false;
 		}
 	}
+
 	public Account getAccountByUsername(String username) {
 		Account account = null;
 		try {
@@ -78,6 +92,15 @@ public class AccountBO {
 		}
 		System.out.println(account.getPassword());
 		return account;
+	}
+	
+	public boolean checkLogin(String username, String password) {
+		if (dao.checkLogin(username, password)) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
 	public static void main(String[] args) {
