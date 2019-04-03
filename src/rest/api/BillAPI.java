@@ -71,6 +71,7 @@ public class BillAPI {
 			return FAILURE_RESULT;
 		}
 	}
+
 	@OPTIONS
 	@Path("/action-bills")
 	@Produces(MediaType.APPLICATION_XML)
