@@ -44,7 +44,7 @@ public class BillAPI {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public String insertBill(@FormParam("staff_id") String staff_id, @FormParam("customer_id") String customer_id,
 			@FormParam("table_id") String table_id, @FormParam("created_at") String created_at, @Context HttpServletResponse servletResponse) {
-
+    
 		if (billBO.insertBill(staff_id, customer_id, table_id, created_at)) {
 			// return "{\"status\":\"true\"}";
 			return SUCCESS_RESULT;
@@ -62,7 +62,7 @@ public class BillAPI {
 			@FormParam("quantity") String quantity, @FormParam("session") String session,
 			@FormParam("weather") String weather, @FormParam("discount") String discount,
 			@FormParam("description") String description, @Context HttpServletResponse servletResponse) {
-
+    
 		if (billBO.insertBillInfo(bill_id, product_id, quantity, session, weather, discount, description)) {
 			// return "{\"status\":\"true\"}";
 			return SUCCESS_RESULT;
@@ -71,6 +71,7 @@ public class BillAPI {
 			return FAILURE_RESULT;
 		}
 	}
+
 	@OPTIONS
 	@Path("/action-bills")
 	@Produces(MediaType.APPLICATION_XML)

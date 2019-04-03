@@ -86,7 +86,6 @@ public class BillDAO {
 		con = instanceSQL.createConnection();
 		bill_id = "select MAX(id) from bills";
 		String query = "INSERT INTO bill_items(bill_id, product_id, quantity, session, weather, discount, description) VALUES(?,?,?,?,?,?,?)";
-
 		try {
 			preStm = con.prepareStatement(query);
 			preStm.setString(1, bill_id);
@@ -96,7 +95,6 @@ public class BillDAO {
 			preStm.setString(5, weather);
 			preStm.setString(6, discount);
 			preStm.setString(7, description);
-
 			if (preStm.executeUpdate() == 1) {
 				return true;
 			} else {
