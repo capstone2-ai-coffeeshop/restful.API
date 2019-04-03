@@ -43,14 +43,9 @@ public class BillAPI {
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public String insertBill(@FormParam("staff_id") String staff_id, @FormParam("customer_id") String customer_id,
-			@FormParam("table_id") String table_id, @FormParam("status") String status, @FormParam("created_at") String created_at,
-			@FormParam("total") String total, @FormParam("product_id") String product_id,
-			@FormParam("quantity") String quantity, @FormParam("session") String session,
-			@FormParam("time") String time, @FormParam("weather") String weather,
-			@FormParam("unitprice") String unitprice, @FormParam("discount") String discount,
-			@FormParam("description") String description, @Context HttpServletResponse servletResponse) {
-
-		if (billBO.insertBill(staff_id, customer_id, table_id, status, created_at, total, product_id, quantity, session, time, weather, unitprice, discount, description)) {
+			@FormParam("table_id") String table_id, @FormParam("created_at") String created_at, @Context HttpServletResponse servletResponse) {
+    
+		if (billBO.insertBill(staff_id, customer_id, table_id, created_at)) {
 			// return "{\"status\":\"true\"}";
 			return SUCCESS_RESULT;
 		} else {
@@ -59,6 +54,24 @@ public class BillAPI {
 		}
 	}
 	
+	@POST
+	@Path("/action-billinfo")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public String insertBillInfo(@FormParam("bill_id") String bill_id, @FormParam("product_id") String product_id,
+			@FormParam("quantity") String quantity, @FormParam("session") String session,
+			@FormParam("weather") String weather, @FormParam("discount") String discount,
+			@FormParam("description") String description, @Context HttpServletResponse servletResponse) {
+    
+		if (billBO.insertBillInfo(bill_id, product_id, quantity, session, weather, discount, description)) {
+			// return "{\"status\":\"true\"}";
+			return SUCCESS_RESULT;
+		} else {
+			// return "{\"status\":\"false\"}";
+			return FAILURE_RESULT;
+		}
+	}
+
 	@OPTIONS
 	@Path("/action-bills")
 	@Produces(MediaType.APPLICATION_XML)

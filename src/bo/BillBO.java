@@ -20,10 +20,9 @@ public class BillBO {
 		return list;
 	}
 	
-	public boolean insertBill(String staff_id, String customer_id, String table_id, String status, String created_at, String total,
-			String product_id, String quantity, String session, String time, String weather, String unitprice, String discount, String description) {
+	public boolean insertBill(String staff_id, String customer_id, String table_id, String created_at) {
 		try {
-			if (dao.insertBill(staff_id, customer_id, table_id, status, created_at, total, product_id, quantity, session, time, weather, unitprice, discount, description)) {
+			if (dao.insertBill(staff_id, customer_id, table_id, created_at)) {
 				return true;
 			} else {
 				return false;
@@ -34,9 +33,9 @@ public class BillBO {
 		}
 	}
 	
-	public boolean insertBillInfo(String bill_id, String product_id, String quantity, String session, String time, String weather, String unitprice, String discount, String description) {
+	public boolean insertBillInfo(String bill_id, String product_id, String quantity, String session, String weather, String discount, String description) {
 		try {
-			if (dao.insertBillInfo(bill_id, product_id, quantity, session, time, weather, unitprice, discount, description)) {
+			if (dao.insertBillInfo(bill_id, product_id, quantity, session, weather, discount, description)) {
 				return true;
 			} else {
 				return false;

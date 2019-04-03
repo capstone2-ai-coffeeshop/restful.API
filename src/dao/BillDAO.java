@@ -54,27 +54,18 @@ public class BillDAO {
 		return list;
 	}
 
-	public boolean insertBill(String staff_id, String customer_id, String table_id, String status, String created_at, String total,
-			String product_id, String quantity, String session, String time, String weather, String unitprice, String discount, String description) throws SQLException {
+	public boolean insertBill(String staff_id, String customer_id, String table_id, String created_at) throws SQLException {
 		Connection con = null;
 		PreparedStatement preStm = null;
 		con = instanceSQL.createConnection();
-		String query = "INSERT INTO bills(staff_id, customer_id, table_id, status, created_at, total) VALUES(?,?,?,?,?,?)";
-		String bill_id= null;
+		String query = "INSERT INTO bills(staff_id, customer_id, table_id, created_at) VALUES(?,?,?,?)";
 		try {
 			preStm = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			preStm.setString(1, staff_id);
 			preStm.setString(2, customer_id);
 			preStm.setString(3, table_id);
-			preStm.setString(4, status);
-			preStm.setString(5, created_at);
-			preStm.setString(6, total);		
+			preStm.setString(4, created_at);	
 			if (preStm.executeUpdate() == 1) {
-				ResultSet rs = preStm.getGeneratedKeys();
-				while(rs.next()){
-		            bill_id = Integer.toString(rs.getInt(1));
-				}
-				insertBillInfo(bill_id, product_id, quantity, session, time, weather, unitprice, discount, description);
 				return true;
 			} else {
 				return false;
@@ -89,25 +80,21 @@ public class BillDAO {
 		}
 	}
 	
-	public boolean insertBillInfo(String bill_id, String product_id, String quantity, String session, String time, String weather, String unitprice, String discount, String description) throws SQLException {
+	public boolean insertBillInfo(String bill_id , String product_id, String quantity, String session, String weather, String discount, String description) throws SQLException {
 		Connection con = null;
 		PreparedStatement preStm = null;
 		con = instanceSQL.createConnection();
-
-		String query = "INSERT INTO bill_items(bill_id, product_id, quantity, session, time, weather, unitprice, discount, description) VALUES(?,?,?,?,?,?,?,?,?)";
-
+		bill_id = "select MAX(id) from bills";
+		String query = "INSERT INTO bill_items(bill_id, product_id, quantity, session, weather, discount, description) VALUES(?,?,?,?,?,?,?)";
 		try {
 			preStm = con.prepareStatement(query);
 			preStm.setString(1, bill_id);
 			preStm.setString(2, product_id);
 			preStm.setString(3, quantity);
 			preStm.setString(4, session);
-			preStm.setString(5, time);
-			preStm.setString(6, weather);
-			preStm.setString(7, unitprice);
-			preStm.setString(8, discount);
-			preStm.setString(9, description);
-
+			preStm.setString(5, weather);
+			preStm.setString(6, discount);
+			preStm.setString(7, description);
 			if (preStm.executeUpdate() == 1) {
 				return true;
 			} else {
@@ -124,13 +111,6 @@ public class BillDAO {
 	}
 	
 	public static void main(String[] args) {
-		BillDAO billtDAO = new BillDAO();
-		try {
-			billtDAO.insertBill("1", "1", "1", "1", "02/03/2019", "90000", "1", "2", "4", "12:00:AM", "20", "35", "0.2", "No");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
 
 	}
 
