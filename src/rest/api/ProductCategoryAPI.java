@@ -36,7 +36,7 @@ public class ProductCategoryAPI {
 	}
 
 	@GET
-	@Path("/action-category/{id}")
+	@Path("/action-categorys/{id}")
 	@Produces("application/json")
 	public ProductCategory getCategory(@PathParam("id") String id) {
 		return categoryBO.getCategory(id);
@@ -74,7 +74,7 @@ public class ProductCategoryAPI {
 	}
 
 	@DELETE
-	@Path("/action-category/{id}")
+	@Path("/action-categorys/{id}")
 	@Produces("application/json")
 	public String deleteCategory(@PathParam("id") String id) {
 		if (categoryBO.deleteCategory(id)) {

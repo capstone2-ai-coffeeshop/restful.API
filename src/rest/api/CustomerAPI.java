@@ -38,7 +38,7 @@ public class CustomerAPI {
 	@GET
 	@Path("/action-customers/{id}")
 	@Produces("application/json")
-	public Customer getStaff(@PathParam("id") String id) {
+	public Customer getCustomer(@PathParam("id") String id) {
 		return customerBO.getCustomer(id);
 	}
 

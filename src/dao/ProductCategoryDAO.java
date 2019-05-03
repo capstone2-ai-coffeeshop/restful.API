@@ -160,7 +160,7 @@ public class ProductCategoryDAO {
 		ProductCategoryDAO dao = new ProductCategoryDAO();
 		try {
 			//dao.insertCategory("Bia", "Bia Heneiken lạnh cực ngon", "11/01/2019");
-			dao.deleteCategory("1");
+			dao.deleteCategory("7");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -111,7 +111,7 @@ public class AccountDAO {
 		PreparedStatement preStm = null;
 		con = instanceSQL.createConnection();
 
-		String query = "UPDATE accounts SET password = ? WHERE username = ? AND password = ?"; //tại đây nó hiểu :))) vô SQL làm nó đéo hiểu
+		String query = "UPDATE accounts SET password = ? WHERE username = ? AND password = ?";
 		try {
 			preStm = con.prepareStatement(query);
 			preStm.setString(1, newPassword);
@@ -231,7 +231,7 @@ public class AccountDAO {
 		Account account = null;
 		try {
 			stmt = con.createStatement();
-			String query = "SELECT * FROM accounts WHERE username = " + username;
+			String query = "SELECT * FROM accounts WHERE username = '" + username + "'";
 			result = stmt.executeQuery(query);
 
 			while (result.next()) {
@@ -259,8 +259,8 @@ public class AccountDAO {
 		try {
 
 			System.out.println(accountDAO.getAccountByUsername("nhanha"));
-			System.out.println(accountDAO.changePasswordByEmail("trongnghianguyen1003@gmail.com",
-					randomCharacters.randomString(10)));
+			//System.out.println(accountDAO.changePasswordByEmail("trongnghianguyen1003@gmail.com",
+					//randomCharacters.randomString(10)));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

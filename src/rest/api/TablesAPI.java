@@ -63,7 +63,7 @@ public class TablesAPI {
 	@Path("/action-tables")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public String updateTable(@FormParam("id") String id, @FormParam("quantityofcustomer") String quantityOfCustomer,
+	public String updateTable(@FormParam("id") String id, @FormParam("quantityOfCustomer") String quantityOfCustomer,
 			@FormParam("description") String description, @FormParam("status") String status,
 			@Context HttpServletResponse servletResponse) {
 		if (tablesBO.updateTable(id, quantityOfCustomer, description, status)) {

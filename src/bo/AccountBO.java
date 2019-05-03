@@ -106,7 +106,7 @@ public class AccountBO {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		AccountBO aB = new AccountBO();
-		aB.getAccount("1");
+		aB.getAccountByUsername("nhanha");
 
 	}
 

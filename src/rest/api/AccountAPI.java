@@ -58,7 +58,7 @@ public class AccountAPI {
 	public String insertAccount(@FormParam("username") String username, @FormParam("password") String password,
 			@FormParam("role") String role, @Context HttpServletResponse servletResponse) {
 
-		if (accountBO.insertAccount(username, md5.MD5(password), role)) {
+		if (accountBO.insertAccount(username, password, role)) {
 			// return "{\"status\":\"true\"}";
 			return SUCCESS_RESULT;
 		} else {
@@ -71,14 +71,11 @@ public class AccountAPI {
 	@Path("/action-accounts")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public String updateAccount(@FormParam("id") String id, @FormParam("password") String password,
+	public String updateAccount(@FormParam("username") String username, @FormParam("password") String password,
 			@FormParam("newpassword") String newpassword, @FormParam("cfpassword") String cfpassword,
 			@Context HttpServletResponse servletResponse) {
 		if (newpassword.equals(cfpassword) && newpassword != null) {
-			password = md5.MD5(password);
-			newpassword = md5.MD5(newpassword);
-			cfpassword = md5.MD5(cfpassword);
-			if (accountBO.updateAccount(id, password, cfpassword)) {
+			if (accountBO.updateAccount(username, password, cfpassword)) {
 				return SUCCESS_RESULT;
 			} else {
 				return FAILURE_RESULT;

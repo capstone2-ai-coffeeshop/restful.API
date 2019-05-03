@@ -159,6 +159,7 @@ public class TablesDAO {
 		TablesDAO dao = new TablesDAO();
 		try {
 			dao.getTable("1");
+			dao.updateTable("1", "0", "nooo", "0");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
